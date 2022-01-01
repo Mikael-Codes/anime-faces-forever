@@ -72,7 +72,7 @@ const loadData = () => {
     if (airtable_array.length < 1) {
         base('Anime Girls').select({
             // Selecting the first 3 records in Grid view:
-            maxRecords: 256,
+            maxRecords: 128,
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
