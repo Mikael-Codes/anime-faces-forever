@@ -1,8 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect  } from 'react'
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from 'react-tinder-card'
 var Airtable = require('airtable');
 
+const pb = [
+    {
+        name: "Vrtte3wNf6AZR9xaJ"
+    },
+    {
+        name: "keyc9gwNf6AZR9xuJ"
+    }
+]
 const db = [
   {
     name: 'Sakura',
@@ -23,20 +31,87 @@ const db = [
   {
     name: 'Ichika',
     url: './img/face_30.png'
+  },
+  {
+    name: 'Sara',
+    url: './img/face_75.png'
+  },
+  {
+    name: 'Yui',
+    url: './img/face_76.png'
+  },
+  {
+    name: 'Hina',
+    url: './img/face_77.png'
+  },
+  {
+    name: 'Machiko',
+    url: './img/face_78.png'
+  },
+  {
+    name: 'Nayoko',
+    url: './img/face_79.png'
   }
 ]
 
-function LoadStuff() {
-    
-  
-}
-// console.log(airtable_array);
-// console.log(faces)
-
 // Randomize the order
+db.sort(() => Math.random() - 0.5)
+const key = pb[1].name
+
+// var rand_db = faces.sort(() => Math.random() - 0.5)
+var base = new Airtable({apiKey: key}).base('appuEOU54maP37kBE');
+
+var airtable_array = Array()
+var faces = Array()
+var rand_db = db
+const loadData = () => {
+    console.log("Loading Airtable data")
+        
+    // const [isLoadingData, setisLoadingData] = React.useState(true);
+    // const [showData, setShowData] = React.useState(false);
+    if (airtable_array.length < 1) {
+        base('Anime Girls').select({
+            // Selecting the first 3 records in Grid view:
+            maxRecords: 256,
+            view: "Grid view"
+        }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+
+            records.forEach(function(record) {
+                airtable_array.push(record)
+            // console.log('Retrieved', record.get('Name'));
+            });
+
+            faces = airtable_array.map(record => {
+                //console.log("Mapping record")
+                //console.log(record);
+                return { name: Math.floor(Math.random() * 1000000).toString(), url: record.fields.Attachments[0].url}
+            })
+            rand_db = faces.sort(() => Math.random() - 0.5)
+            // To fetch the next page of records, call `fetchNextPage`.
+            // If there are more records, `page` will get called again.
+            // If there are no more records, `done` will get called.
+        
+            fetchNextPage();
+
+        }, function done(err) {
+            // setShowData(true)
+            
+            // setisLoadingData(false)
+            if (err) { console.error(err); return; }
+
+        }, []);
+    }
+}
+
 
 function Simple () {
-  const characters = db
+
+    useEffect(() => { 
+        loadData();
+    },[]);
+
+  const characters = rand_db
   const [lastDirection, setLastDirection] = useState()
 
   const swiped = (direction, nameToDelete) => {
