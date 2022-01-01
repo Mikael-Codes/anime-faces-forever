@@ -1,29 +1,39 @@
 import React, { useState } from 'react'
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from 'react-tinder-card'
+var Airtable = require('airtable');
 
 const db = [
   {
-    name: 'Richard Hendricks',
-    url: './img/richard.jpg'
+    name: 'Sakura',
+    url: './img/face_18.png'
   },
   {
-    name: 'Erlich Bachman',
-    url: './img/erlich.jpg'
+    name: 'Daisuke',
+    url: './img/face_19.png'
   },
   {
-    name: 'Monica Hall',
-    url: './img/monica.jpg'
+    name: 'Banana',
+    url: './img/face_21.png'
   },
   {
-    name: 'Jared Dunn',
-    url: './img/jared.jpg'
+    name: 'Yomi',
+    url: './img/face_24.png'
   },
   {
-    name: 'Dinesh Chugtai',
-    url: './img/dinesh.jpg'
+    name: 'Ichika',
+    url: './img/face_30.png'
   }
 ]
+
+function LoadStuff() {
+    
+  
+}
+// console.log(airtable_array);
+// console.log(faces)
+
+// Randomize the order
 
 function Simple () {
   const characters = db

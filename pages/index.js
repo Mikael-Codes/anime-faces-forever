@@ -9,8 +9,7 @@ import Simple from './examples/Simple'
 
 // import * as serviceWorker from './serviceWorker';
 export default function Home() {
-  const [showAdvanced, setShowAdvanced] = useState(true)
-
+  const [showAdvanced, setShowAdvanced] = useState(false)
   return (
     <div className="container">
       <Head>
