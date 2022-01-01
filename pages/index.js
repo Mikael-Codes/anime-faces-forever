@@ -8,9 +8,9 @@ import Advanced from './examples/Advanced'
 import Simple from './examples/Simple'
 
 // import * as serviceWorker from './serviceWorker';
-
-
 export default function Home() {
+  const [showAdvanced, setShowAdvanced] = useState(true)
+
   return (
     <div className="container">
       <Head>
@@ -19,11 +19,17 @@ export default function Home() {
       </Head>
 
       <main>
-        <Header title="Welcome to my app!" />
+        {/* <Header title="Infinite Waifus" /> */}
         <p className="description">
-          Get started by editing <code>pages/index.js</code>
         </p>
       </main>
+
+      <div className='app'>
+        {showAdvanced ? <Advanced /> : <Simple />}
+        <div className='row'>
+          <p style={{ color: '#fff' }}>Show advanced example</p> <Switch checked={showAdvanced} onChange={setShowAdvanced} />
+        </div>
+     </div>
 
       <Footer />
     </div>

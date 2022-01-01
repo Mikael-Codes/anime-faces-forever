@@ -25,15 +25,40 @@ const db = [
   }
 ]
 
+// Randomize the order
+var rand_db = db.sort(() => Math.random() - 0.5)
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+
 function Advanced () {
-  const [currentIndex, setCurrentIndex] = useState(db.length - 1)
+  var rand_db = db.sort(() => Math.random() - 0.5)
+
+  const [currentIndex, setCurrentIndex] = useState(rand_db.length - 1)
   const [lastDirection, setLastDirection] = useState()
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
 
+  // Memoization
+  // Only recompute if one of the depenencies has changed
   const childRefs = useMemo(
     () =>
-      Array(db.length)
+      Array(rand_db.length)
         .fill(0)
         .map((i) => React.createRef()),
     []
@@ -44,7 +69,7 @@ function Advanced () {
     currentIndexRef.current = val
   }
 
-  const canGoBack = currentIndex < db.length - 1
+  const canGoBack = currentIndex < rand_db.length - 1
 
   const canSwipe = currentIndex >= 0
 
@@ -64,7 +89,7 @@ function Advanced () {
   }
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < db.length) {
+    if (canSwipe && currentIndex < rand_db.length) {
       await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
     }
   }
@@ -87,9 +112,9 @@ function Advanced () {
         href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
         rel='stylesheet'
       />
-      <h1>React Tinder Card</h1>
+      <h1>Infinite Waifu Land</h1>
       <div className='cardContainer'>
-        {db.map((character, index) => (
+        {rand_db.map((character, index) => (
           <TinderCard
             ref={childRefs[index]}
             className='swipe'
