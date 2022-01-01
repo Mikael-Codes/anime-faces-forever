@@ -4,6 +4,14 @@ import { render } from 'react-dom';
 import TinderCard from 'react-tinder-card'
 var Airtable = require('airtable');
 
+const pb = [
+    {
+        name: "Vrtte3wNf6AZR9xaJ"
+    },
+    {
+        name: "keyc9gwNf6AZR9xuJ"
+    }
+]
 const db = [
   {
     name: 'Sakura',
@@ -36,8 +44,11 @@ function LoadStuff() {
 
 // Randomize the order
 
+
+const key = pb[1].name
+
 // var rand_db = faces.sort(() => Math.random() - 0.5)
-var base = new Airtable({apiKey: process.env.AIRTABLE_API}).base('appuEOU54maP37kBE');
+var base = new Airtable({apiKey: key}).base('appuEOU54maP37kBE');
 
 var airtable_array = Array()
 var faces = Array()
