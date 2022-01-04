@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from 'react'
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from 'react-tinder-card'
 var Airtable = require('airtable');
+const names = require('/components/names.json');
 
 const pb = [
     {
@@ -53,60 +54,48 @@ const db = [
     url: './img/face_79.png'
   }
 ]
-
+console.log(names)
+console.log(names.names[0])
 // Randomize the order
 db.sort(() => Math.random() - 0.5)
 const key = pb[1].name
 
-// var rand_db = faces.sort(() => Math.random() - 0.5)
-var base = new Airtable({apiKey: key}).base(key);
+var base = new Airtable({apiKey: key}).base('appuEOU54maP37kBE');
 
 var airtable_array = Array()
 var faces = Array()
 var rand_db = db
+
 const loadData = () => {
     console.log("Loading Airtable data")
         
-    // const [isLoadingData, setisLoadingData] = React.useState(true);
-    // const [showData, setShowData] = React.useState(false);
     if (airtable_array.length < 1) {
         base('Anime Girls').select({
-            // Selecting the first 3 records in Grid view:
             maxRecords: 128,
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
-
             records.forEach(function(record) {
                 airtable_array.push(record)
-            // console.log('Retrieved', record.get('Name'));
             });
 
             faces = airtable_array.map(record => {
-                //console.log("Mapping record")
-                //console.log(record);
-                return { name: Math.floor(Math.random() * 1000000).toString(), url: record.fields.Attachments[0].url}
+                return { name: names.names[Math.floor(Math.random() * names.names.length)].first + " " + names.names[Math.floor(Math.random() * names.names.length)].last, url: record.fields.Attachments[0].url}
             })
             rand_db = faces.sort(() => Math.random() - 0.5)
             // To fetch the next page of records, call `fetchNextPage`.
             // If there are more records, `page` will get called again.
             // If there are no more records, `done` will get called.
-        
             fetchNextPage();
 
         }, function done(err) {
-            // setShowData(true)
-            
-            // setisLoadingData(false)
             if (err) { console.error(err); return; }
-
         }, []);
     }
 }
 
 
 function Simple () {
-
     useEffect(() => { 
         loadData();
     },[]);
@@ -132,7 +121,9 @@ function Simple () {
         {characters.map((character) =>
           <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
             <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
-              <h3>{character.name}</h3>
+              
+                <h3><span style= {{ backgroundColor: "white", padding: "0 4px 0 4px", borderRadius: "5px" }}>{character.name}</span></h3>
+              
             </div>
           </TinderCard>
         )}

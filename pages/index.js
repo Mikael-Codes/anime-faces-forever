@@ -10,6 +10,8 @@ import Simple from './examples/Simple'
 // import * as serviceWorker from './serviceWorker';
 export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
   return (
     <div className="container">
       <Head>

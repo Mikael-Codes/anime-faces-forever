@@ -6,6 +6,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 code {
@@ -21,6 +22,8 @@ code {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(#e66465, #9198e5);
+
 }
 
 body {
