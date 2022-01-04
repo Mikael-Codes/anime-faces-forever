@@ -59,7 +59,7 @@ db.sort(() => Math.random() - 0.5)
 const key = pb[1].name
 
 // var rand_db = faces.sort(() => Math.random() - 0.5)
-var base = new Airtable({apiKey: key}).base('appuEOU54maP37kBE');
+var base = new Airtable({apiKey: key}).base(key);
 
 var airtable_array = Array()
 var faces = Array()
