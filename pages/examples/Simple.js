@@ -54,8 +54,7 @@ const db = [
     url: './img/face_79.png'
   }
 ]
-console.log(names)
-console.log(names.names[0])
+
 // Randomize the order
 db.sort(() => Math.random() - 0.5)
 const key = pb[1].name
@@ -71,7 +70,7 @@ const loadData = () => {
         
     if (airtable_array.length < 1) {
         base('Anime Girls').select({
-            maxRecords: 128,
+            maxRecords: 32,
             view: "Grid view"
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
