@@ -2,33 +2,18 @@ import React, { useState, useEffect  } from 'react'
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from 'react-tinder-card'
 var Airtable = require('airtable');
+const config = require('components/config.json')
 const names = require('/components/names.json');
-require('dotenv').config();
 
-const pb = [
-    {
-        name: "Vrtte3wNf6AZR9xaJ"
-    },
-    {
-        name: "keyc9gwNf6AZR9xuJ"
-    }
-]
-const api_key = pb[1].name
-
-// Add button: Generate girls
-var base = new Airtable({apiKey: api_key}).base('appuEOU54maP37kBE');
+var base = new Airtable({apiKey: config.api_key}).base(config.base);
 var airtable_array = Array()
 var faces = Array()
-
-// Randomize the order
-var rand_db = []// db.sort(() => Math.random() - 0.5)
 
 function Simple () {
     
   const loadData = () => {
     console.log("Loading Airtable data")
       
-    if (airtable_array.length < 1) {
         base('Anime Girls').select({
             maxRecords: 32,
             view: "Grid view"
@@ -40,27 +25,28 @@ function Simple () {
             faces = airtable_array.map(record => {
                 return { name: names.names[Math.floor(Math.random() * names.names.length)].first + " " + names.names[Math.floor(Math.random() * names.names.length)].last, url: record.fields.Attachments[0].url}
             })
-            rand_db = faces.sort(() => Math.random() - 0.5)
+
             setIsLoaded(true)
             console.log(isLoaded)
             // To fetch the next page of records, call `fetchNextPage`.
             // If there are more records, `page` will get called again.
             // If there are no more records, `done` will get called.
-            // fetchNextPage();
+            fetchNextPage();
 
         }, function done(err) {
             if (err) { console.error(err); return; }
         }, [  
         ]);
-    }
+    
   }
+
   useEffect(() => { 
       loadData();
     },[]);
 
-  const characters = rand_db
+  const characters = faces
 
-  rand_db.sort(() => Math.random() - 0.5)
+  faces.sort(() => Math.random() - 0.5)
 
   const [lastDirection, setLastDirection] = useState()
   const [isLoaded, setIsLoaded] = useState(false)

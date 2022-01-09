@@ -12,8 +12,6 @@ export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [isLoaded, setIsLoading] = useState(true)
 
-
-    console.log("Loading Airtable data")
   return (
     <div className="container">
       <Head>
