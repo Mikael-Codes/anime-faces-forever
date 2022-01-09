@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "airtable": "^0.11.1",
+    "dotenv": "^10.0.0",
     "json-loader": "^0.5.7",
     "next": "^12.0.7",
     "react": "^17.0.2",

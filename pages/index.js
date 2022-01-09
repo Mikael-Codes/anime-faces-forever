@@ -10,12 +10,14 @@ import Simple from './examples/Simple'
 // import * as serviceWorker from './serviceWorker';
 export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoaded, setIsLoading] = useState(true)
 
+
+    console.log("Loading Airtable data")
   return (
     <div className="container">
       <Head>
-        <title>Next.js Starter!</title>
+        <title>Waifu Maker</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -26,10 +28,12 @@ export default function Home() {
       </main>
 
       <div className='app'>
-        {showAdvanced ? <Advanced /> : <Simple />}
-        <div className='row'>
+
+        <Simple />
+        {/* {isLoaded ? <Simple /> : <Div />} */}
+        {/* <div className='row'>
           <p style={{ color: '#fff' }}>Show advanced example</p> <Switch checked={showAdvanced} onChange={setShowAdvanced} />
-        </div>
+        </div> */}
      </div>
 
       <Footer />

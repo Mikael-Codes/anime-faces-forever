@@ -3,6 +3,7 @@ import React, { useState, useEffect  } from 'react'
 import TinderCard from 'react-tinder-card'
 var Airtable = require('airtable');
 const names = require('/components/names.json');
+require('dotenv').config();
 
 const pb = [
     {
@@ -12,62 +13,21 @@ const pb = [
         name: "keyc9gwNf6AZR9xuJ"
     }
 ]
-const db = [
-  {
-    name: 'Sakura',
-    url: './img/face_18.png'
-  },
-  {
-    name: 'Daisuke',
-    url: './img/face_19.png'
-  },
-  {
-    name: 'Banana',
-    url: './img/face_21.png'
-  },
-  {
-    name: 'Yomi',
-    url: './img/face_24.png'
-  },
-  {
-    name: 'Ichika',
-    url: './img/face_30.png'
-  },
-  {
-    name: 'Sara',
-    url: './img/face_75.png'
-  },
-  {
-    name: 'Yui',
-    url: './img/face_76.png'
-  },
-  {
-    name: 'Hina',
-    url: './img/face_77.png'
-  },
-  {
-    name: 'Machiko',
-    url: './img/face_78.png'
-  },
-  {
-    name: 'Nayoko',
-    url: './img/face_79.png'
-  }
-]
+const api_key = pb[1].name
 
-// Randomize the order
-db.sort(() => Math.random() - 0.5)
-const key = pb[1].name
-
-var base = new Airtable({apiKey: key}).base('appuEOU54maP37kBE');
-
+// Add button: Generate girls
+var base = new Airtable({apiKey: process.env.REACT_APP_AIRTABLE_API}).base('appuEOU54maP37kBE');
 var airtable_array = Array()
 var faces = Array()
-var rand_db = db
 
-const loadData = () => {
+// Randomize the order
+var rand_db = []// db.sort(() => Math.random() - 0.5)
+
+function Simple () {
+    
+  const loadData = () => {
     console.log("Loading Airtable data")
-        
+      
     if (airtable_array.length < 1) {
         base('Anime Girls').select({
             maxRecords: 32,
@@ -77,30 +37,33 @@ const loadData = () => {
             records.forEach(function(record) {
                 airtable_array.push(record)
             });
-
             faces = airtable_array.map(record => {
                 return { name: names.names[Math.floor(Math.random() * names.names.length)].first + " " + names.names[Math.floor(Math.random() * names.names.length)].last, url: record.fields.Attachments[0].url}
             })
             rand_db = faces.sort(() => Math.random() - 0.5)
+            setIsLoaded(true)
+            console.log(isLoaded)
             // To fetch the next page of records, call `fetchNextPage`.
             // If there are more records, `page` will get called again.
             // If there are no more records, `done` will get called.
-            fetchNextPage();
+            // fetchNextPage();
 
         }, function done(err) {
             if (err) { console.error(err); return; }
-        }, []);
+        }, [  
+        ]);
     }
-}
-
-
-function Simple () {
-    useEffect(() => { 
-        loadData();
+  }
+  useEffect(() => { 
+      loadData();
     },[]);
 
   const characters = rand_db
+
+  rand_db.sort(() => Math.random() - 0.5)
+
   const [lastDirection, setLastDirection] = useState()
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const swiped = (direction, nameToDelete) => {
     console.log('removing: ' + nameToDelete)
@@ -111,25 +74,30 @@ function Simple () {
     console.log(name + ' left the screen!')
   }
 
-  return (
-    <div>
-      <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
-      <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
-      <h1>Infinite Waifus</h1>
-      <div className='cardContainer'>
-        {characters.map((character) =>
-          <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
-            <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
-              
-                <h3><span style= {{ backgroundColor: "white", padding: "0 4px 0 4px", borderRadius: "5px" }}>{character.name}</span></h3>
-              
-            </div>
-          </TinderCard>
-        )}
+  if (!isLoaded) {
+    return <div />
+  }
+  else {
+    return (
+      <div>
+        <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
+        <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
+        <h1>Infinite Waifus</h1>
+        <div className='cardContainer'>
+          {characters.map((character) =>
+            <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+              <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
+                
+                  <h3><span style= {{ backgroundColor: "white", padding: "0 4px 0 4px", borderRadius: "5px" }}>{character.name}</span></h3>
+                
+              </div>
+            </TinderCard>
+          )}
+        </div>
+        {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
       </div>
-      {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
-    </div>
-  )
+    )
+  }
 }
 
 export default Simple
