@@ -16,7 +16,7 @@ const pb = [
 const api_key = pb[1].name
 
 // Add button: Generate girls
-var base = new Airtable({apiKey: process.env.REACT_APP_AIRTABLE_API}).base('appuEOU54maP37kBE');
+var base = new Airtable({apiKey: api_key}).base('appuEOU54maP37kBE');
 var airtable_array = Array()
 var faces = Array()
 
